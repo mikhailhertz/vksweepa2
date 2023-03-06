@@ -3,6 +3,9 @@
     <head>
         <script defer src="script.js"></script>
         <style>
+            body {
+                background-color: black;
+            }
             div {
                 position: absolute;
                 top: 50%;
@@ -14,9 +17,16 @@
                 top: 18px;
                 left: 10px;
             }
+            #desktop {
+                position: absolute;
+                top: 50%;
+                right: 50%;
+                transform: translate(50%,-50%);
+            }
         </style>
     </head>
     <body>
+        <img id="desktop" src="desktop.png">
         <div>
             <img src="background.png">
             <canvas width="256" height="296" oncontextmenu="return false;"></canvas>
