@@ -61,7 +61,7 @@ const drawMinefield = () => {
     minefield.forEach((tile, i) => {
         const x = (i % 16) * tiles.width;
         // 26 - высота "хедера"
-        const y = 26 + Math.trunc(i / 16) * tiles.height;
+        const y = 40 + Math.trunc(i / 16) * tiles.height;
         //drawSprite(tile.sprite, tiles, x, y);
         if (tile.isMined && debug) {
             drawSprite('mine', tiles, x, y);
@@ -102,12 +102,12 @@ const newGame = () => {
     gameOver = false;
     firstClick = true;
 
-    drawNumber(time++, true, 1, canvas.width, 0);
-    drawNumber(mines, false, 2, 0, 0);
+    drawNumber(time++, true, 1, canvas.width - 8, 0);
+    drawNumber(mines, false, 2, 8, 0);
     drawSprite('smile', faces, canvas.width / 2 - faces.width / 2, 0);
     drawMinefield();
 
-    interval = setInterval(() => drawNumber(time++, true, 1, canvas.width, 0), 1000);
+    interval = setInterval(() => drawNumber(time++, true, 1, canvas.width - 8, 0), 1000);
 };
 const didWin = () => !minefield.some(tile => tile.sprite === 'unknown');
 const endGame = (dead) => {
@@ -223,7 +223,7 @@ const flagTile = (x, y) => {
     }
     drawMinefield();
     context.clearRect(0, 0, digits.width * 2, digits.height);
-    drawNumber(mines, false, 2, 0, 0);
+    drawNumber(mines, false, 2, 8, 0);
     if (didWin()) {
         endGame(false);
     }

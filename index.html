@@ -2,8 +2,24 @@
 <html>
     <head>
         <script defer src="script.js"></script>
+        <style>
+            div {
+                position: absolute;
+                top: 50%;
+                right: 50%;
+                transform: translate(50%,-50%);
+            }
+            canvas {
+                position: absolute;
+                top: 18px;
+                left: 10px;
+            }
+        </style>
     </head>
     <body>
-        <canvas width="256" height="282" oncontextmenu="return false;"></canvas>
+        <div>
+            <img src="background.png">
+            <canvas width="256" height="296" oncontextmenu="return false;"></canvas>
+        </div>
     </body>
 </html>
