@@ -161,6 +161,42 @@ const revealSafeTiles = (col, row) => {
         }
     }
 };
+const revealUnflaggedTiles = (col, row) => {
+    let flagCount = 0;
+    let died = false;
+    const n = getNeighbors(col, row);
+    for (let j = n.top; j <= n.bottom; j++) {
+        for (let i = n.left; i <= n.right; i++) {
+            if (minefield[j * 16 + i].sprite === 'flagged') {
+                flagCount += 1;
+            }
+        }
+    }
+    if (flagCount === parseInt(minefield[row * 16 + col].sprite)) {
+        for (let j = n.top; j <= n.bottom; j++) {
+            for (let i = n.left; i <= n.right; i++) {
+                if (minefield[j * 16 + i].sprite !== 'flagged') {
+                    if (minefield[j * 16 + i].isMined) {
+                        died = true;
+                        minefield[j * 16 + i].sprite = 'minedet';
+                    } else {
+                        revealSafeTiles(i, j);
+                    }
+                }
+            }
+        }
+    }
+    if (died) {
+        endGame(true);
+        minefield.forEach(tile => {
+            if (tile.isMined) {
+                tile.sprite = 'mine';
+            } else if (tile.sprite === 'flagged') {
+                tile.sprite = 'nomine';
+            }
+        });
+    }
+};
 
 const onFaceMouseDown = () => {
     canvas.addEventListener('mouseup', onFaceMouseUp);
@@ -194,6 +230,9 @@ const flagTile = (x, y) => {
 };
 const onTileMouseDown = (x, y) => {
     const tile = minefield[y * 16 + x];
+    if (tile.sprite !== 'unknown' && isNaN(tile.sprite)) {
+        return;
+    }
     drawSprite('woah', faces, canvas.width / 2 - faces.width / 2, 0);
     if (firstClick) {
         if (tile.isMined) {
@@ -223,7 +262,7 @@ const onTileMouseUp = ({ x, y }) => {
         });
         tile.sprite = 'minedet';
     } else {
-        revealSafeTiles(x, y);
+        tile.sprite === 'unknown' ? revealSafeTiles(x, y) : revealUnflaggedTiles(x, y);
         if (didWin()) {
             endGame(false);
             drawSprite('rad', faces, canvas.width / 2 - faces.width / 2, 0);
