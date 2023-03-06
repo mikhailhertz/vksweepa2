@@ -60,7 +60,7 @@ const drawNumber = (number, left, width, x, y) => {
 const drawMinefield = () => {
     minefield.forEach((tile, i) => {
         const x = (i % 16) * tiles.width;
-        // 26 - высота "хедера"
+        // 40 - высота "хедера"
         const y = 40 + Math.trunc(i / 16) * tiles.height;
         //drawSprite(tile.sprite, tiles, x, y);
         if (tile.isMined && debug) {
@@ -246,7 +246,7 @@ const onTileMouseDown = (x, y) => {
 const onTileMouseUp = ({ x, y }) => {
     const rect = canvas.getBoundingClientRect();
     x -= rect.left;
-    y -= rect.top + 26;
+    y -= rect.top + 40;
     x = Math.trunc(x / 16);
     y = Math.trunc(y / 16);
     const tile = minefield[y * 16 + x];
@@ -279,7 +279,7 @@ const onMouseDown = ({ x, y, button }) => {
     y -= rect.top;
 
     // Клик в хедере
-    if (y < 26) {
+    if (y < 40) {
         // Клик по лицу
         if (canvas.width / 2 - faces.width / 2 < x && x < canvas.width / 2 + faces.width / 2) {
             onFaceMouseDown();
@@ -290,7 +290,7 @@ const onMouseDown = ({ x, y, button }) => {
         if (gameOver) {
             return;
         }
-        y -= 26;
+        y -= 40;
         x = Math.trunc(x / 16);
         y = Math.trunc(y / 16);
         if (button === 2) {
